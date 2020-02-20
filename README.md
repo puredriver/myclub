@@ -16,7 +16,7 @@ Python 3.8, Django 2.2.7, Mysql etc
 * Benutze ein ".env" Datei zum Setzen des SECRET_KEY und der DB Zugriffsdetails in "myclub/settings.py" z. B. wie hier beschrieben:
 https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/
 
-## Features
+## Mögliche Features
 * Rankinglist Stats z. B. die meisten Spiele
 * Startseite 20 Spiele mit link auf "Alle Spiele"
 * "Alle Spiele" mit Jahresfilter 2020, 2019 etc
