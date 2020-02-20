@@ -1,0 +1,85 @@
+{% extends "rankinglist/base.html" %}
+
+{% block content %}
+
+
+<a class="btn btn-primary btn-sm float-right" href="{% url 'index' %}" role="button">Zurück</a>
+
+    <h5>Spielhistorie von {{player.nameshort}}</h5>
+    <p>Siege: {{matcheswonCount}} / Niederlagen: {{matcheslostCount}}</p>
+
+    <h5>Siege</h5>
+    <table class="table table-sm">
+      <thead>
+          <tr>
+          <th>Datum</th>
+          <th>Rangliste</th>
+              <th>Spieler 1 <br>(Sieger)</th>
+              <th>Spieler 2</th>
+              <th>Ergebnis</th>
+              
+          </tr>
+      </thead>
+    <tbody>
+      {% for m in matcheswon %}
+          <tr>
+              <td>{{ m.playedat }}</td>
+              <td>{{ m.rankinglist }}</td>
+              <td>{{ m.playerone.nameshort }}</td>
+              <td>{{ m.playertwo.nameshort }}</td>
+              <td>{{ m.set1playerone }}:{{ m.set1playertwo }}                 
+              {{ m.set2playerone }}:{{ m.set2playertwo }}
+  
+              {% if m.set3playerone != 0 and m.set3playertwo != 0 %}
+                  {{ m.set3playerone }}:{{ m.set3playertwo }}
+              {% endif %}  
+            </td>
+             
+          </tr>
+      {% empty %}
+          <tr>
+              <td colspan="8">Keine Spiele</td>
+          </tr>
+      {% endfor %}
+      </tbody>
+  </table> 
+  
+  <h5>Niederlagen</h5>
+  <table class="table table-sm">
+    <thead>
+        <tr>
+        <th>Datum</th>
+        <th>Rangliste</th>
+            <th>Spieler 1 <br>(Sieger)</th>
+            <th>Spieler 2</th>
+            <th>Ergebnis</th>
+            
+        </tr>
+    </thead>
+  <tbody>
+    {% for m in matcheslost %}
+        <tr>
+            <td>{{ m.playedat }}</td>
+            <td>{{ m.rankinglist }}</td>
+            <td>{{ m.playerone.nameshort }}</td>
+            <td>{{ m.playertwo.nameshort }}</td>
+            <td>{{ m.set1playerone }}:{{ m.set1playertwo }}                 
+            {{ m.set2playerone }}:{{ m.set2playertwo }}
+
+            {% if m.set3playerone != 0 and m.set3playertwo != 0 %}
+                {{ m.set3playerone }}:{{ m.set3playertwo }}
+            {% endif %}  
+          </td>
+           
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="8">Keine Spiele</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}
