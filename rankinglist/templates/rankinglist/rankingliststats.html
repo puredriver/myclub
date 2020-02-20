@@ -5,8 +5,24 @@
 
 <a class="btn btn-primary btn-sm float-right" href="{% url 'index' %}" role="button">Zurück</a>
 
-    <h5>Stats</h5>
-    
+    <h6>Die meisten Spiele in {{ rankinglist.name }}</h6>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+            
+            <th scope="col">Name</th>            
+            <th scope="col">Anzahl Spiele</th>    
+        </tr>
+        </thead>
+        <tbody>
+            {% for entry in players %}
+            <tr>
+            <td scope="row">{{entry.0.nameshort}}</td>
+            <td>{{entry.1}}</td> 
+            </tr>
+            {% endfor %}
+        <tbody>
+    </table> 
 
 
 {% endblock %}

@@ -9,7 +9,9 @@
   <h5>Ranglisten</h5>
   
   {% for r in rankinglists %}
-      <h6>{{ r.name }}</h6>
+      <h6>{{ r.name }} <a href="{% url 'rankinglist_stats' rankinglist_id=r.id %}" class="btn btn-primary btn-sm">Statistiken</a></h6>
+      
+      
       <table class="table table-sm">
         <thead>
             <tr>
