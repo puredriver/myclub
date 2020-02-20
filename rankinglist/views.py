@@ -31,3 +31,16 @@ def playerhistory(request,player_id):
         'matcheslostCount': len(matcheslost),
     }
     return render(request, 'rankinglist/playerhistory.html', context)
+
+def rankingliststats(request,rankinglist_id):
+    rankinglist = get_object_or_404(Rankinglist, pk=rankinglist_id)
+    playerList = list()
+    for ranking in rankinglist.rankings.all():
+        playerList.append(ranking.player)
+
+    # todo count matches in rankinglist by player in playerList
+    context = {        
+        'rankinglist': rankinglist,
+        'players': playerList
+    }
+    return render(request, 'rankinglist/rankingliststats.html', context)
