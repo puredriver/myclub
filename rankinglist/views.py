@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from operator import itemgetter
 
 from .models import Rankinglist, Match, Player
 
@@ -34,13 +35,15 @@ def playerhistory(request,player_id):
 
 def rankingliststats(request,rankinglist_id):
     rankinglist = get_object_or_404(Rankinglist, pk=rankinglist_id)
-    playerList = list()
+    playerList = []
     for ranking in rankinglist.rankings.all():
-        playerList.append(ranking.player)
+        countWon = Match.objects.filter(rankinglist=rankinglist,playerone=ranking.player).count()
+        countLost= Match.objects.filter(rankinglist=rankinglist,playertwo=ranking.player).count()
+        playerList.append((ranking.player,countWon+countLost))
 
     # todo count matches in rankinglist by player in playerList
     context = {        
         'rankinglist': rankinglist,
-        'players': playerList
+        'players': sorted(playerList,key=itemgetter(1),reverse=True)
     }
     return render(request, 'rankinglist/rankingliststats.html', context)
