@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [u'localhost']
 INSTALLED_APPS = [
     'rankinglist.apps.RankinglistConfig',
     'crispy_forms',
+    'formtools',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

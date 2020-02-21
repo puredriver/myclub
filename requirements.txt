@@ -1,2 +1,3 @@
 python-dotenv
 django-crispy-forms
+django-formtools

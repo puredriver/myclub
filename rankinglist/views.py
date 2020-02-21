@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from operator import itemgetter
+from django.http import HttpResponseRedirect
+from formtools.wizard.views import SessionWizardView
+from django.urls import reverse
 
 from .models import Rankinglist, Match, Player
 from .forms import MatchesHistoryForm
@@ -61,3 +64,11 @@ def matcheshistory(request):
         form = MatchesHistoryForm()
     m = Match.objects.all().order_by('-playedat') # TODO in 2021 - load by year
     return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': m})
+
+class MatchNewWizard(SessionWizardView):
+    template_name = 'rankinglist/matchnewwizard.html'
+    
+    def done(self, form_list, **kwargs):
+        logger.debug("in match new wizard")
+        # do_something_with_the_form_data(form_list)
+        return HttpResponseRedirect(reverse('index'))
