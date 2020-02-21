@@ -13,7 +13,7 @@ logger = logging.getLogger('rankinglist')
 
 def index(request):
     rankinglists = Rankinglist.objects.all()
-    matches = Match.objects.all().order_by('-playedat')
+    matches = Match.objects.all().order_by('-playedat')[:10] # first 10
     context = {        
         'rankinglists': rankinglists,
         'matches': matches,
@@ -59,5 +59,5 @@ def matcheshistory(request):
             return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': []})
     else:
         form = MatchesHistoryForm()
-    m = Match.objects.all() # TODO in 2021 - load by year
+    m = Match.objects.all().order_by('-playedat') # TODO in 2021 - load by year
     return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': m})
