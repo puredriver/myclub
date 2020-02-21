@@ -14,14 +14,14 @@ Python 3.8, Django 2.2.7, Mysql etc
 
 ### v0.2.0
 * Ranglisten Statistiken eingeführt für "die meisten Spiele"
+* Startseite zeigt nur die letzten 10 Spiele an > Button für Spielearchiv
+* Spielarchiv mit Jahresauswahl neu einführt 
 
 ## Deployment Hinweise
 * Benutze ein ".env" Datei zum Setzen des SECRET_KEY und der DB Zugriffsdetails in "myclub/settings.py" z. B. wie hier beschrieben:
 https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/
 
 ## Mögliche Features
-* Startseite 20 Spiele mit link auf "Alle Spiele"
-* "Alle Spiele" mit Jahresfilter 2020, 2019 etc
 * Ranglisten "deaktivieren" im Admin damit die Statistiken von neu anfangen, aber die Spiele / Ranking erhalten bleiben
 * Usermanagement: Login, Registrierung, Passwort vergessen
 * Herausforderungen aussprechen und anzeigen
