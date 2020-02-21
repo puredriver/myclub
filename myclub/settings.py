@@ -148,7 +148,7 @@ LOGGING = {
         },
     },
     'loggers': {
-        'django': {
+        'rankinglist': {
             'handlers': ['file'],
             'level': 'DEBUG',
         },

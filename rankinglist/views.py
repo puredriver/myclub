@@ -7,7 +7,7 @@ from .models import Rankinglist, Match, Player
 from .forms import MatchesHistoryForm
 
 import logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rankinglist')
 
 # Create your views here.
 
@@ -52,9 +52,12 @@ def rankingliststats(request,rankinglist_id):
 def matcheshistory(request):
     if( request.method == 'POST'):
         form = MatchesHistoryForm(request.POST)
-        if ( form.is_valid):
+        if (form.is_valid()):
             year = form.cleaned_data['year']
+            logger.debug("Year %s in matches history" %(year))
+            # TODO in 2021 - load by year
             return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': []})
     else:
         form = MatchesHistoryForm()
-    return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': []})
+    m = Match.objects.all() # TODO in 2021 - load by year
+    return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': m})
