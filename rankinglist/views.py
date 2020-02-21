@@ -1,17 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from operator import itemgetter
 
 from .models import Rankinglist, Match, Player
+from .forms import MatchesHistoryForm
 
 import logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rankinglist')
 
 # Create your views here.
 
 def index(request):
     rankinglists = Rankinglist.objects.all()
-    matches = Match.objects.all().order_by('-playedat')
+    matches = Match.objects.all().order_by('-playedat')[:10] # first 10
     context = {        
         'rankinglists': rankinglists,
         'matches': matches,
@@ -31,3 +33,31 @@ def playerhistory(request,player_id):
         'matcheslostCount': len(matcheslost),
     }
     return render(request, 'rankinglist/playerhistory.html', context)
+
+def rankingliststats(request,rankinglist_id):
+    rankinglist = get_object_or_404(Rankinglist, pk=rankinglist_id)
+    playerList = []
+    for ranking in rankinglist.rankings.all():
+        countWon = Match.objects.filter(rankinglist=rankinglist,playerone=ranking.player).count()
+        countLost= Match.objects.filter(rankinglist=rankinglist,playertwo=ranking.player).count()
+        playerList.append((ranking.player,countWon+countLost))
+
+    # todo count matches in rankinglist by player in playerList
+    context = {        
+        'rankinglist': rankinglist,
+        'players': sorted(playerList,key=itemgetter(1),reverse=True)
+    }
+    return render(request, 'rankinglist/rankingliststats.html', context)
+
+def matcheshistory(request):
+    if( request.method == 'POST'):
+        form = MatchesHistoryForm(request.POST)
+        if (form.is_valid()):
+            year = form.cleaned_data['year']
+            logger.debug("Year %s in matches history" %(year))
+            # TODO in 2021 - load by year
+            return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': []})
+    else:
+        form = MatchesHistoryForm()
+    m = Match.objects.all().order_by('-playedat') # TODO in 2021 - load by year
+    return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': m})
