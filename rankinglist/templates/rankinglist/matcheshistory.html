@@ -1,0 +1,59 @@
+{% extends "rankinglist/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<a class="btn btn-primary btn-sm float-right" href="{% url 'index' %}" role="button">Zurück</a>
+
+<h5>Alle Spiele</h5>
+
+<form action="" method="post" name="yearForm">
+    {% csrf_token %}
+    {{ form|crispy }}   
+</form>
+
+<table class="table table-sm">
+  <thead>
+      <tr>
+      <th>Datum</th>
+      <th>Rangliste</th>
+          <th>Spieler 1 <br>(Sieger)</th>
+          <th>Spieler 2</th>
+          <th>Ergebnis</th>
+          
+      </tr>
+  </thead>
+<tbody>
+  {% for m in matches %}
+      <tr>
+          <td>{{ m.playedat }}</td>
+          <td>{{ m.rankinglist }}</td>
+          <td>{{ m.playerone.nameshort }}</td>
+          <td>{{ m.playertwo.nameshort }}</td>
+          <td>{{ m.set1playerone }}:{{ m.set1playertwo }}                 
+          {{ m.set2playerone }}:{{ m.set2playertwo }}
+
+          {% if m.set3playerone != 0 and m.set3playertwo != 0 %}
+              {{ m.set3playerone }}:{{ m.set3playertwo }}
+          {% endif %}  
+        </td>
+         
+      </tr>
+  {% empty %}
+      <tr>
+          <td colspan="8">Keine Spiele</td>
+      </tr>
+  {% endfor %}
+  </tbody>
+</table> 
+
+<script>
+    $('#id_year').on('change', function(e){
+            this.form.submit()
+        });
+    </script>
+
+
+{% endblock %}

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [u'localhost']
 
 INSTALLED_APPS = [
     'rankinglist.apps.RankinglistConfig',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -153,3 +154,5 @@ LOGGING = {
         },
     },
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

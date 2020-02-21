@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from operator import itemgetter
 
 from .models import Rankinglist, Match, Player
+from .forms import MatchesHistoryForm
 
 import logging
 logger = logging.getLogger(__name__)
@@ -47,3 +48,13 @@ def rankingliststats(request,rankinglist_id):
         'players': sorted(playerList,key=itemgetter(1),reverse=True)
     }
     return render(request, 'rankinglist/rankingliststats.html', context)
+
+def matcheshistory(request):
+    if( request.method == 'POST'):
+        form = MatchesHistoryForm(request.POST)
+        if ( form.is_valid):
+            year = form.cleaned_data['year']
+            return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': []})
+    else:
+        form = MatchesHistoryForm()
+    return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': []})
