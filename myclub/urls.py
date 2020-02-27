@@ -19,9 +19,13 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls import url
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('rankinglist/', include('rankinglist.urls')),
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('static/favicon.ico'))),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

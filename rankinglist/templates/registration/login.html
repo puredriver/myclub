@@ -1,0 +1,32 @@
+{% extends 'rankinglist/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% if form.errors %}
+<p>Fehler beim Anmelden. Benutzername / Passwort passen nicht. Bitte erneut versuchen!</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+
+<h5 class="h3 mb-3 font-weight-normal">Bitte Einloggen</h5>
+
+{{ form|crispy}}
+
+<button class="btn btn-primary btn-block" type="submit">Einloggen</button>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'password_reset' %}">Passwort vergessen?</a></p>
+
+{% endblock %}

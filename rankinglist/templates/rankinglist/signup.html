@@ -1,0 +1,15 @@
+{% extends 'rankinglist/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h5>Neu Anmelden</h5>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy}}
+    <button class="btn btn-primary btn-block" type="submit">Neu Anmelden</button>
+  </form>
+
+{% endblock %}

@@ -1,5 +1,16 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from .choices import *
+
+class SignUpForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, help_text='Erforderlich. Zur Anzeige in der Rangliste', label='Vorname')
+    last_name = forms.CharField(max_length=30, help_text='Erforderlich. Zur Anzeige in der Rangliste', label='Nachname')
+    email = forms.EmailField(max_length=254, help_text='Erforderlich. Zum Empfangen von Mails')
+
+    class Meta:
+        model = User
+        fields = ('username','first_name', 'last_name', 'email', 'password1', 'password2' )
 
 class MatchesHistoryForm(forms.Form):
     year = forms.ChoiceField(choices = YEAR_CHOICES,label='Jahr')

@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from operator import itemgetter
 from django.http import HttpResponseRedirect
 from formtools.wizard.views import SessionWizardView
 from django.urls import reverse
+from django.contrib.auth import login, authenticate
 
 from .models import Rankinglist, Match, Player
-from .forms import MatchesHistoryForm
+from .forms import MatchesHistoryForm, SignUpForm
 
 import logging
 logger = logging.getLogger('rankinglist')
@@ -64,6 +65,20 @@ def matcheshistory(request):
         form = MatchesHistoryForm()
     m = Match.objects.all().order_by('-playedat') # TODO in 2021 - load by year
     return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': m})
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('index')
+    else:
+        form = SignUpForm()
+    return render(request, 'rankinglist/signup.html', {'form': form})
 
 class MatchNewWizard(SessionWizardView):
     template_name = 'rankinglist/matchnewwizard.html'
