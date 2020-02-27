@@ -80,6 +80,14 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'rankinglist/signup.html', {'form': form})
 
+def matchchallenge(request,player_id):
+    opponent =  get_object_or_404(Player, pk=player_id)
+    context={
+        'opponent': opponent
+    }
+    return render(request, 'rankinglist/matchchallenge.html', context)
+
+
 class MatchNewWizard(SessionWizardView):
     template_name = 'rankinglist/matchnewwizard.html'
     

@@ -17,6 +17,7 @@
             <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>            
+            <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,7 @@
             <tr>
             <td scope="row">{{pos.position}}</td>
             <td><a href="{% url 'player_history' player_id=pos.player.id %}">   {{pos.player.nameshort}}</a></td> 
+            <td><a href="{% url 'matchchallenge' player_id=pos.player.id %}"> herausfordern</a></td>
             </tr>
             {% endfor %}
         <tbody>

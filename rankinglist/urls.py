@@ -11,6 +11,7 @@ urlpatterns = [
     path('player/<int:player_id>/history', views.playerhistory, name='player_history'),
     path('rankinglist/<int:rankinglist_id>/stats', views.rankingliststats, name='rankinglist_stats'),
     path('match/history', views.matcheshistory, name='matcheshistory'),
+    path('match/challenge/<int:player_id>', views.matchchallenge, name='matchchallenge'),
     path('signup', views.signup ,name='signup'),
     url(r'^match/new/wizard$', MatchNewWizard.as_view([MatchNewWizardForm1, MatchNewWizardForm2,MatchNewWizardForm3])),
 ]
