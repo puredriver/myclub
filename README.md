@@ -26,4 +26,5 @@ https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/
 * Usermanagement: Login, Registrierung, Passwort vergessen
 * Herausforderungen aussprechen und anzeigen
 * Spieleingabe Wizard für eingeloggten User
+* Regelwerk kann modifiziert werden
 * Doppel Rangliste

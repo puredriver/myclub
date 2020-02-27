@@ -9,7 +9,7 @@
   <h5>Ranglisten</h5>
   
   {% for r in rankinglists %}
-      <h6>{{ r.name }} <a href="{% url 'rankinglist_stats' rankinglist_id=r.id %}" class="btn btn-primary btn-sm">Statistiken</a></h6>
+      <h6>{{ r.name }}  <a href="{% url 'rankinglist_stats' rankinglist_id=r.id %}" class="btn btn-primary btn-sm">Statistiken</a></h6>
       
       
       <table class="table table-sm">
@@ -83,8 +83,8 @@
           <ul>
               <li>Die Rangliste wird nicht für irgendwelche Auswertungen/Aufstellungen etc. verwendet.</li>
       <li>Start: Alle Spieler, die mitmachen wollen, werden nach ihrer Stärke in der Rangliste angeordnet. Der beste Spieler steht an der Spitze der Rangliste.
-      <li>Herausfordern: Um nach oben zu kommen, kann ein Spieler die 3 Spieler direkt über ihm herausfordern. Diese müssen die Herausforderung annehmen und ein Spiel austragen.
-      <li>Herausforderungen müssen angenommen werden, sonst gilt das Spiel als verloren.
+      <li>Herausfordern: Um nach oben zu kommen, kann ein Spieler die 3 Spieler direkt über ihm herausfordern. Diese müssen die Herausforderung annehmen.
+      <li>Herausforderungen müssen angenommen werden und innerhalb der nächsten 7 Tage gespielt werden, sonst gilt das Spiel als verloren.
       <li>Gewinnt der Herausforderer, werden die Plätze getauscht, verliert er, bleiben die Positionen bestehen. Der neue Stand ist die Basis für weitere Spiele.
       <li>Es darf nur EINE offene Herausforderung bestehen. Erst nachdem das Spiel gespielt ist, darf eine weitere Herausforderung ausgesprochen werden
       <li>Das Spielergebnis wird dem Administrator (der bekannt sein sollte) so schnell wie möglich gemeldet - spätestens aber nach einem Tag! Dieser aktualisiert dann die Rangliste
