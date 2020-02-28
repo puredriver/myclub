@@ -20,7 +20,7 @@
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
 
-<h5 class="h3 mb-3 font-weight-normal">Bitte Einloggen</h5>
+<h5 class="h3 mb-3 font-weight-normal">Benutzerkonto</h5>
 
 {{ form|crispy}}
 
@@ -28,5 +28,9 @@
 
 {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Passwort vergessen?</a></p>
+
+<h5 align="center">oder</h5>
+
+<a href="{% url 'signup' %}" class="btn btn-secondary btn-block ">Neu Anmelden</a>
 
 {% endblock %}

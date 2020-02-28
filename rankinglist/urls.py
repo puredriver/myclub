@@ -1,5 +1,7 @@
 from django.urls import path
 from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
 
 from .forms import MatchNewWizardForm1, MatchNewWizardForm2,MatchNewWizardForm3
 from .views import MatchNewWizard
@@ -14,4 +16,4 @@ urlpatterns = [
     path('match/challenge/<int:player_id>', views.matchchallenge, name='matchchallenge'),
     path('signup', views.signup ,name='signup'),
     url(r'^match/new/wizard$', MatchNewWizard.as_view([MatchNewWizardForm1, MatchNewWizardForm2,MatchNewWizardForm3])),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
