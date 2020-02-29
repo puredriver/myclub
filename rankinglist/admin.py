@@ -22,6 +22,6 @@ class MatchAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Rankinglist)
-admin.site.register(Player)
+# admin.site.register(Player)
 admin.site.register(Ranking)
 admin.site.register(Match,MatchAdmin)
