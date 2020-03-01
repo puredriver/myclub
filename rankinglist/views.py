@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from operator import itemgetter
+from django.contrib.auth.models import User
 
 from .models import Rankinglist, Match, Player
 from .forms import MatchesHistoryForm
@@ -22,7 +23,7 @@ def index(request):
     return render(request, 'rankinglist/index.html', context)
 
 def playerhistory(request,player_id):
-    player = get_object_or_404(Player, pk=player_id)
+    player = get_object_or_404(User, pk=player_id)
     matcheswon = Match.objects.filter(playerone=player)
     matcheslost = Match.objects.filter(playertwo=player)
     context = {        

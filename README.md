@@ -17,6 +17,9 @@ Python 3.8, Django 2.2.7, Mysql etc
 * Startseite zeigt nur die letzten 10 Spiele an > Button für Spielearchiv
 * Spielarchiv mit Jahresauswahl neu einführt 
 
+### v0.2.1
+* Umgestellt auf Django User Modell anstatt Player
+
 ## Deployment Hinweise
 * Benutze ein ".env" Datei zum Setzen des SECRET_KEY und der DB Zugriffsdetails in "myclub/settings.py" z. B. wie hier beschrieben:
 https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/

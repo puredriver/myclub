@@ -41,9 +41,6 @@ class Ranking(models.Model):
     def __str__(self):
         return "%s: %s %s" % (self.rankinglist, self.position, self.player)
 
-    def player_nameshort(self):
-        return "%s %s." % (self.player.first_name, self.player.last_name[:1])
-        
     class Meta:
         ordering = ["position"]
         
