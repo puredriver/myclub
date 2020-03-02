@@ -17,8 +17,7 @@ class MatchAdmin(admin.ModelAdmin):
             ranking_playerone.position = ranking_playertwo.position
             ranking_playertwo.position = posplayerone_old
             ranking_playerone.save()
-            ranking_playertwo.save()        
-        
+            ranking_playertwo.save()
 
 # Register your models here.
 admin.site.register(Rankinglist)

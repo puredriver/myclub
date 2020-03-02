@@ -20,12 +20,15 @@ Python 3.8, Django 2.2.7, Mysql etc
 ### v0.2.1
 * Umgestellt auf Django User Modell anstatt Player
 
+### v0.2.2
+* Ranglisten "deaktivieren" im Admin damit die Statistiken von neu anfangen, aber die Spiele / Ranking erhalten bleiben
+
 ## Deployment Hinweise
 * Benutze ein ".env" Datei zum Setzen des SECRET_KEY und der DB Zugriffsdetails in "myclub/settings.py" z. B. wie hier beschrieben:
 https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/
 
 ## Mögliche Features
-* Ranglisten "deaktivieren" im Admin damit die Statistiken von neu anfangen, aber die Spiele / Ranking erhalten bleiben
+* Tendenz eines Spielers in der Rangliste anzeigen
 * Usermanagement: Login, Registrierung, Passwort vergessen
 * Herausforderungen aussprechen und anzeigen
 * Spieleingabe Wizard für eingeloggten User

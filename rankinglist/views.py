@@ -13,7 +13,7 @@ logger = logging.getLogger('rankinglist')
 # Create your views here.
 
 def index(request):
-    rankinglists = Rankinglist.objects.all()
+    rankinglists = Rankinglist.objects.filter(active=True)
     matches = Match.objects.all().order_by('-playedat')[:10] # first 10
     context = {        
         'rankinglists': rankinglists,
