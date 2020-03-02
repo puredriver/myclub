@@ -9,10 +9,11 @@
   <h5>Ranglisten</h5>
   
   {% for r in rankinglists %}
-      <h6>{{ r.name }}  <a href="{% url 'rankinglist_stats' rankinglist_id=r.id %}" class="btn btn-primary btn-sm">Statistiken</a></h6>
+      <h6>{{ r.name }} <button class="btn btn-primary btn-sm" id="rbutton{{r.id}}">Details</button>
+         <a href="{% url 'rankinglist_stats' rankinglist_id=r.id %}" class="btn btn-primary btn-sm">Statistiken</a></h6>
       
       
-      <table class="table table-sm">
+      <table id="rtable{{r.id}}" class="table table-sm">
         <thead>
             <tr>
             <th scope="col">#</th>
@@ -29,6 +30,14 @@
         <tbody>
    </table> 
       
+   <script>
+      $("#rtable{{r.id}}").hide();
+      $("#rbutton{{r.id}}").click(function(){
+        $("#rtable{{r.id}}").toggle();
+      });
+    
+    </script>
+
   {% endfor %}
   
   
