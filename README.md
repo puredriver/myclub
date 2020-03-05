@@ -22,6 +22,8 @@ Python 3.8, Django 2.2.7, Mysql etc
 
 ### v0.2.2
 * Ranglisten "deaktivieren" im Admin damit die Statistiken von neu anfangen, aber die Spiele / Ranking erhalten bleiben
+* Aktuelle Herausforderungen hinzugefügt
+* Neue Button "Tabelle" bei der Rangliste zum ein- und ausblenden
 
 ## Deployment Hinweise
 * Benutze ein ".env" Datei zum Setzen des SECRET_KEY und der DB Zugriffsdetails in "myclub/settings.py" z. B. wie hier beschrieben:

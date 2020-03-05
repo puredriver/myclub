@@ -46,21 +46,26 @@ class Ranking(models.Model):
         ordering = ["position"]
         
 class Match(models.Model):
+    GEPLANT='geplant'
+    GESPIELT='gespielt'
+    ABGEBROCHEN='abgebrochen'
+    MATCHSTATUS_CHOICES = (
+    (GEPLANT,'geplant'),
+    (GESPIELT,'gespielt'),
+    (ABGEBROCHEN,'abgebrochen'),
+    )
+
     rankinglist = models.ForeignKey(Rankinglist, on_delete=models.CASCADE)
     playerone = models.ForeignKey(User, related_name='playerone', on_delete=models.CASCADE)
     playertwo = models.ForeignKey(User, related_name='playertwo', on_delete=models.CASCADE)
-    playedat = models.DateField()
+    playedat = models.DateTimeField()
     set1playerone = models.IntegerField(default=0)
     set1playertwo = models.IntegerField(default=0)
     set2playerone = models.IntegerField(default=0)
     set2playertwo = models.IntegerField(default=0)
     set3playerone = models.IntegerField(default=0)
     set3playertwo = models.IntegerField(default=0)
+    status = models.CharField(max_length=20, choices=MATCHSTATUS_CHOICES, default=GEPLANT) 
     
     def __str__(self):
         return "%s: %s vs %s - %s" % (self.rankinglist,self.playerone,self.playertwo,self.playedat)
-
-    def player_nameshort(self):
-        return "%s %s." % (self.player.first_name, self.player.last_name[:1])
-
-  

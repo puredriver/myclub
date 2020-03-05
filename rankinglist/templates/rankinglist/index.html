@@ -40,6 +40,32 @@
 
   {% endfor %}
   
+  <h5>Aktuelle Herausforderungen</h5>
+  
+  <table class="table table-sm">
+    <thead>
+        <tr>
+        <th>Geplant für</th>
+        <th>Rangliste</th>
+            <th>Spieler 1</th>
+            <th>Spieler 2</th>                        
+        </tr>
+    </thead>
+    <tbody>
+    {% for m in matches_planned %}
+        <tr>
+            <td>{{ m.playedat }}</td>
+            <td>{{ m.rankinglist }}</td>
+            <td>{{ m.playerone.player.nameshort }}</td>
+            <td>{{ m.playertwo.player.nameshort }}</td>     
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="8">Keine aktuellen Herausforderungen</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table> 
   
   <h5>Letzten 10 Spiele <a href="{% url 'matcheshistory' %}" class="btn btn-primary btn-sm">Spielearchiv</a></h5>
   
