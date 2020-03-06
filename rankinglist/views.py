@@ -15,7 +15,7 @@ logger = logging.getLogger('rankinglist')
 def index(request):
     rankinglists = Rankinglist.objects.filter(active=True)
     matches = Match.objects.all().exclude(status=Match.GEPLANT).order_by('-playedat')[:10] # first 10
-    matches_planned=Match.objects.filter(status=Match.GEPLANT).order_by('-playedat')
+    matches_planned=Match.objects.filter(status=Match.GEPLANT).order_by('playedat')
     context = {        
         'rankinglists': rankinglists,
         'matches': matches,

@@ -2,33 +2,28 @@
 
 {% block content %}
 
-<button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#exampleModal">
-    Regelwerk
-  </button>
-  
-  <h5>Ranglisten</h5>
+<div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Regelwerk</button>
+  <button type="button" class="btn btn-secondary">Herausforderungen/Spiele</button>
+</div>
+
   
   {% for r in rankinglists %}
-      <h6>{{ r.name }} <button class="btn btn-primary btn-sm" id="rbutton{{r.id}}">Tabelle</button>
-         <a href="{% url 'rankinglist_stats' rankinglist_id=r.id %}" class="btn btn-primary btn-sm">Statistiken</a></h6>
-      
-      
-      <table id="rtable{{r.id}}" class="table table-sm">
-        <thead>
-            <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>            
-            </tr>
-        </thead>
-        <tbody>
-            {% for pos in r.rankings.all %}
-            <tr>
-            <td scope="row">{{pos.position}}</td>
-            <td><a href="{% url 'player_history' player_id=pos.player.id %}">   {{pos.player.player.nameshort}}</a></td> 
-            </tr>
-            {% endfor %}
-        <tbody>
-   </table> 
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Rangliste {{ r.name }}
+        <a href="{% url 'rankinglist_stats' rankinglist_id=r.id %}" class="btn btn-primary btn-sm">Statistiken</a>
+
+      </h5>      
+      {% for pos in r.rankings.all %}
+      <a href="{% url 'player_history' player_id=pos.player.id %}">{{pos.position}}:  {{pos.player.player.nameshort}}</a><br>
+    {% endfor %}  
+    </div>
+    
+  </div>  
+
+
       
    <script>
       $("#rtable{{r.id}}").hide();
@@ -39,71 +34,64 @@
     </script>
 
   {% endfor %}
-  
-  <h5>Aktuelle Herausforderungen</h5>
-  
-  <table class="table table-sm">
-    <thead>
-        <tr>
-        <th>Geplant für</th>
-        <th>Rangliste</th>
-            <th>Spieler 1</th>
-            <th>Spieler 2</th>                        
-        </tr>
-    </thead>
-    <tbody>
-    {% for m in matches_planned %}
-        <tr>
-            <td>{{ m.playedat }}</td>
-            <td>{{ m.rankinglist }}</td>
-            <td>{{ m.playerone.player.nameshort }}</td>
-            <td>{{ m.playertwo.player.nameshort }}</td>     
-        </tr>
-    {% empty %}
-        <tr>
-            <td colspan="8">Keine aktuellen Herausforderungen</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table> 
-  
-  <h5>Letzten 10 Spiele <a href="{% url 'matcheshistory' %}" class="btn btn-primary btn-sm">Spielearchiv</a></h5>
-  
-  <table class="table table-sm">
-    <thead>
-        <tr>
-        <th>Datum</th>
-        <th>Rangliste</th>
-            <th>Spieler 1 <br>(Sieger)</th>
-            <th>Spieler 2</th>
-            <th>Ergebnis</th>
-            
-        </tr>
-    </thead>
-    <tbody>
-    {% for m in matches %}
-        <tr>
-            <td>{{ m.playedat }}</td>
-            <td>{{ m.rankinglist }}</td>
-            <td>{{ m.playerone.player.nameshort }}</td>
-            <td>{{ m.playertwo.player.nameshort }}</td>
-            <td>{{ m.set1playerone }}:{{ m.set1playertwo }}                 
-            {{ m.set2playerone }}:{{ m.set2playertwo }}
 
-            {% if m.set3playerone != 0 and m.set3playertwo != 0 %}
-                {{ m.set3playerone }}:{{ m.set3playertwo }}
-            {% endif %}  
-          </td>
-           
-        </tr>
+  <div class="card">
+    <div class="card-header">
+      Aktuelle Herausforderungen
+    </div>
+
+    <ul class="list-group list-group-flush">
+
+
+   {% for m in matches_planned %}
+   <li class="list-group-item">
+    {{ m.playerone.player.nameshort }} gegen {{ m.playertwo.player.nameshort }}
+    <p><small>Geplant für den {{ m.playedat }} in Rangliste {{ m.rankinglist }}</small></p>
+
+   </li>
+        
     {% empty %}
-        <tr>
-            <td colspan="8">Keine Spiele</td>
-        </tr>
+    <li class="list-group-item">Derzeit keine Herausforderungen</li>
+        
     {% endfor %}
-    </tbody>
-</table> 
-  
+    </ul>
+  </div>
+
+    <div class="card">
+      <div class="card-header">
+        Letzten 10 Spiele <a href="{% url 'matcheshistory' %}" class="btn btn-primary btn-sm">Spielearchiv</a>
+      </div>
+
+      <ul class="list-group list-group-flush">
+        {% for m in matches %}
+        <li class="list-group-item">
+        
+          {{ m.playerone.player.nameshort }} gegen {{ m.playertwo.player.nameshort }}:
+       
+          {{ m.set1playerone }}:{{ m.set1playertwo }}                 
+          {{ m.set2playerone }}:{{ m.set2playertwo }}
+
+          {% if m.set3playerone != 0 and m.set3playertwo != 0 %}
+              {{ m.set3playerone }}:{{ m.set3playertwo }}
+          {% endif %}
+          <p><small>In Rangliste {{m.rankinglist}}</small></p>
+
+          </li>
+        
+        
+
+        {% empty %}
+        <li class="list-group-item">Keine Spiele</li>
+        {% endfor %}
+
+      </ul>
+
+
+    </div>
+
+
+    
+    
       <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

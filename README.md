@@ -25,6 +25,10 @@ Python 3.8, Django 2.2.7, Mysql etc
 * Aktuelle Herausforderungen hinzugefügt
 * Neue Button "Tabelle" bei der Rangliste zum ein- und ausblenden
 
+### v0.2.3
+* Redesign der Startseite
+* Bugfix: Name auf Spielerhistorie wird nicht angezeigt
+
 ## Deployment Hinweise
 * Benutze ein ".env" Datei zum Setzen des SECRET_KEY und der DB Zugriffsdetails in "myclub/settings.py" z. B. wie hier beschrieben:
 https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/
