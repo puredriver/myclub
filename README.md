@@ -26,7 +26,7 @@ Python 3.8, Django 2.2.7, Mysql etc
 * Neue Button "Tabelle" bei der Rangliste zum ein- und ausblenden
 
 ### v0.2.3
-* Redesign der Startseite
+* Startseite hinsichtlichen Spieletabellen angepasst
 * Bugfix: Name auf Spielerhistorie wird nicht angezeigt
 
 ## Deployment Hinweise
