@@ -6,6 +6,8 @@ from django.http import HttpResponseRedirect
 from formtools.wizard.views import SessionWizardView
 from django.urls import reverse
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
+
 
 from .models import Rankinglist, Match, Player
 from .forms import MatchesHistoryForm, SignUpForm
@@ -16,19 +18,21 @@ logger = logging.getLogger('rankinglist')
 # Create your views here.
 
 def index(request):
-    rankinglists = Rankinglist.objects.all()
-    matches = Match.objects.all().order_by('-playedat')[:10] # first 10
+    rankinglists = Rankinglist.objects.filter(active=True)
+    matches = Match.objects.all().exclude(status=Match.GEPLANT).order_by('-playedat')[:10] # first 10
+    matches_planned=Match.objects.filter(status=Match.GEPLANT).order_by('playedat')
     context = {        
         'rankinglists': rankinglists,
         'matches': matches,
+        'matches_planned': matches_planned,
     }
-    logger.debug('in index')
+    # logger.debug('in index')
     return render(request, 'rankinglist/index.html', context)
 
 def playerhistory(request,player_id):
-    player = get_object_or_404(Player, pk=player_id)
-    matcheswon = Match.objects.filter(playerone=player)
-    matcheslost = Match.objects.filter(playertwo=player)
+    player = get_object_or_404(User, pk=player_id)
+    matcheswon = Match.objects.filter(playerone=player).exclude(status=Match.GEPLANT)
+    matcheslost = Match.objects.filter(playertwo=player).exclude(status=Match.GEPLANT)
     context = {        
         'player': player,
         'matcheswon': matcheswon,
@@ -42,8 +46,8 @@ def rankingliststats(request,rankinglist_id):
     rankinglist = get_object_or_404(Rankinglist, pk=rankinglist_id)
     playerList = []
     for ranking in rankinglist.rankings.all():
-        countWon = Match.objects.filter(rankinglist=rankinglist,playerone=ranking.player).count()
-        countLost= Match.objects.filter(rankinglist=rankinglist,playertwo=ranking.player).count()
+        countWon = Match.objects.filter(rankinglist=rankinglist,playerone=ranking.player).exclude(status=Match.GEPLANT).count()
+        countLost= Match.objects.filter(rankinglist=rankinglist,playertwo=ranking.player).exclude(status=Match.GEPLANT).count()
         playerList.append((ranking.player,countWon+countLost))
 
     # todo count matches in rankinglist by player in playerList

@@ -5,7 +5,7 @@
 
 <a class="btn btn-primary btn-sm float-right" href="{% url 'index' %}" role="button">Zurück</a>
 
-<h5>Spielhistorie von {{player.nameshort}}</h5>
+<h5>Spielhistorie von {{player.player.nameshort}}</h5>
 <p>Siege: {{matcheswonCount}} / Niederlagen: {{matcheslostCount}}</p>
 
 <h5>Siege</h5>
@@ -25,8 +25,8 @@
       <tr>
           <td>{{ m.playedat }}</td>
           <td>{{ m.rankinglist }}</td>
-          <td>{{ m.playerone.nameshort }}</td>
-          <td>{{ m.playertwo.nameshort }}</td>
+          <td>{{ m.playerone.player.nameshort }}</td>
+          <td>{{ m.playertwo.player.nameshort }}</td>
           <td>{{ m.set1playerone }}:{{ m.set1playertwo }}                 
           {{ m.set2playerone }}:{{ m.set2playertwo }}
 
@@ -61,8 +61,8 @@
     <tr>
         <td>{{ m.playedat }}</td>
         <td>{{ m.rankinglist }}</td>
-        <td>{{ m.playerone.nameshort }}</td>
-        <td>{{ m.playertwo.nameshort }}</td>
+        <td>{{ m.playerone.player.nameshort }}</td>
+        <td>{{ m.playertwo.player.nameshort }}</td>
         <td>{{ m.set1playerone }}:{{ m.set1playertwo }}                 
         {{ m.set2playerone }}:{{ m.set2playertwo }}
 
