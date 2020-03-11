@@ -5,9 +5,12 @@ from operator import itemgetter
 from django.http import HttpResponseRedirect
 from formtools.wizard.views import SessionWizardView
 from django.urls import reverse
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Rankinglist, Match, Player
 from .forms import MatchesHistoryForm, SignUpForm
@@ -84,13 +87,11 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'rankinglist/signup.html', {'form': form})
 
-def matchchallenge(request,player_id):
-    opponent =  get_object_or_404(Player, pk=player_id)
-    context={
-        'opponent': opponent
-    }
-    return render(request, 'rankinglist/matchchallenge.html', context)
-
+class MatchCreateView(CreateView):
+    model = Match
+    # form_class = MatchForm
+    fields = ['rankinglist','playerone','playertwo','status','playedat']
+    success_url = "index"
 
 class MatchNewWizard(SessionWizardView):
     template_name = 'rankinglist/matchnewwizard.html'

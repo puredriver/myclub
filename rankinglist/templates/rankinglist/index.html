@@ -9,34 +9,27 @@
 <h5>Ranglisten</h5>
 
 {% for r in rankinglists %}
-    <h6>{{ r.name }} <button class="btn btn-primary btn-sm" id="rbutton{{r.id}}">Tabelle</button>
-       <a href="{% url 'rankinglist_stats' rankinglist_id=r.id %}" class="btn btn-primary btn-sm">Statistiken</a></h6>
+    <h6>{{ r.name }} 
+       <a href="{% url 'rankinglist_stats' rankinglist_id=r.id %}" class="btn btn-primary btn-sm">Statistiken</a>
+       {% if request.user.is_authenticated %}
+        <a href="{% url 'matchcreate' r_id=r.id %}" class="btn btn-primary btn-sm">Spiel erstellen</a>
+       {% endif %}
+      </h6>
     
     
-    <table id="rtable{{r.id}}" class="table table-sm">
-      <thead>
-          <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>            
-          </tr>
-      </thead>
+    <table id="rtable{{r.id}}" class="table table-sm">      
       <tbody>
           {% for pos in r.rankings.all %}
           <tr>
           <td scope="row">{{pos.position}}</td>
-          <td><a href="{% url 'player_history' player_id=pos.player.id %}">   {{pos.player.player.nameshort}}</a></td> 
+          <td>
+            <a href="{% url 'player_history' player_id=pos.player.id %}">   {{pos.player.player.nameshort}}</a>
+          </td> 
+          
           </tr>
           {% endfor %}
       <tbody>
  </table> 
-    
- <script>
-    $("#rtable{{r.id}}").hide();
-    $("#rbutton{{r.id}}").click(function(){
-      $("#rtable{{r.id}}").toggle();
-    });
-  
-  </script>
 
 {% endfor %}
 
