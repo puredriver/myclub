@@ -22,6 +22,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('rankinglist/', include('rankinglist.urls')),
+    path('grappelli/', include('grappelli.urls')), # grappelli URLS
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('static/favicon.ico'))),
     path('admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

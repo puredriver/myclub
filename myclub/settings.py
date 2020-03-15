@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [u'localhost']
 INSTALLED_APPS = [
     'rankinglist.apps.RankinglistConfig',
     'crispy_forms',
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -132,7 +133,8 @@ STATIC_URL = '/static/'
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = u'/home/tennisfreak/myclub/media'
 MEDIA_URL = '/media/'
-STATIC_ROOT = u'/home/tennisfreak/myclub/static'
+# STATIC_ROOT = u'/home/tennisfreak/myclub/static'
+STATIC_ROOT=os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 LOGGING = {
@@ -156,3 +158,6 @@ LOGGING = {
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Grappelli
+GRAPPELLI_ADMIN_TITLE='Office'

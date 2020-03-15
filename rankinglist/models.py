@@ -69,3 +69,16 @@ class Match(models.Model):
     
     def __str__(self):
         return "%s: %s vs %s - %s" % (self.rankinglist,self.playerone,self.playertwo,self.playedat)
+
+    def set1(self):
+        return "%s : %s" % (self.set1playerone,self.set1playertwo)
+    
+    def set2(self):
+        return "%s : %s" % (self.set2playerone,self.set2playertwo)
+
+    def set3(self):
+        if self.set3playerone != 0 and self.set3playertwo != 0:
+            return "%s : %s" % (self.set2playerone,self.set2playertwo)
+        else:
+            return ""
+        
