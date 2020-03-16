@@ -30,7 +30,7 @@ class Player(models.Model):
         instance.player.save()
 
     def __str__(self):
-        return "%s %s" % (self.firstname, self.lastname)
+        return "%s %s" % (self.user.first_name, self.user.last_name)
 
     def nameshort(self):
         return "%s %s." % (self.user.first_name, self.user.last_name[:1])

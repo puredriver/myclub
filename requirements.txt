@@ -1,3 +1,2 @@
 python-dotenv
 django-crispy-forms
-django-grappelli==2.13.4

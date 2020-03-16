@@ -21,7 +21,7 @@ class MatchAdmin(admin.ModelAdmin):
         ranking_playertwo = Ranking.objects.filter(rankinglist=obj.rankinglist,player=obj.playertwo).first()
         # TODO check rankings first if available
         # TODO validation - check match result if status GESPIELT
-        # TODO show only players in dropdown who have a ranking for rankingadmin
+        # TODO show only players in dropdown who have a ranking - for rankingadmin
         if ( ranking_playerone.position > ranking_playertwo.position and (obj.status == Match.GESPIELT or obj.status == Match.ABGEBROCHEN)):
             posplayerone_old = ranking_playerone.position
             ranking_playerone.position = ranking_playertwo.position

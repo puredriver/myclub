@@ -34,7 +34,6 @@ ALLOWED_HOSTS = [u'localhost']
 INSTALLED_APPS = [
     'rankinglist.apps.RankinglistConfig',
     'crispy_forms',
-    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -158,6 +157,3 @@ LOGGING = {
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-# Grappelli
-GRAPPELLI_ADMIN_TITLE='Office'
