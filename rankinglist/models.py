@@ -9,6 +9,7 @@ from django.dispatch import receiver
 class Rankinglist(models.Model):
     name = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
+    admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
         return self.name
@@ -65,7 +66,7 @@ class Match(models.Model):
     set2playertwo = models.IntegerField(default=0)
     set3playerone = models.IntegerField(default=0)
     set3playertwo = models.IntegerField(default=0)
-    status = models.CharField(max_length=20, choices=MATCHSTATUS_CHOICES, default=GEPLANT) 
+    status = models.CharField(max_length=20, choices=MATCHSTATUS_CHOICES, default=GEPLANT)
     
     def __str__(self):
         return "%s: %s vs %s - %s" % (self.rankinglist,self.playerone,self.playertwo,self.playedat)

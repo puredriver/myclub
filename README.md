@@ -32,6 +32,7 @@ Python 3.8, Django 2.2.7, Mysql etc
 ### v0.2.4
 * Grappelli admin frontend konfiguriert
 * Admin Listen und Formulare optimiert
+* Einführung von Ranglisten Admins und entsprechender Berechtigungen
 
 ## Deployment Hinweise
 * Benutze ein ".env" Datei zum Setzen des SECRET_KEY und der DB Zugriffsdetails in "myclub/settings.py" z. B. wie hier beschrieben:

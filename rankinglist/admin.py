@@ -16,15 +16,35 @@ class MatchAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
-        # change ranking position
+        # change ranking position automaticaly
         ranking_playerone = Ranking.objects.filter(rankinglist=obj.rankinglist,player=obj.playerone).first()
         ranking_playertwo = Ranking.objects.filter(rankinglist=obj.rankinglist,player=obj.playertwo).first()
-        if ( ranking_playerone.position > ranking_playertwo.position):
+        # TODO check rankings first if available
+        # TODO validation - check match result if status GESPIELT
+        # TODO show only players in dropdown who have a ranking for rankingadmin
+        if ( ranking_playerone.position > ranking_playertwo.position and (obj.status == Match.GESPIELT or obj.status == Match.ABGEBROCHEN)):
             posplayerone_old = ranking_playerone.position
             ranking_playerone.position = ranking_playertwo.position
             ranking_playertwo.position = posplayerone_old
             ranking_playerone.save()
             ranking_playertwo.save()
+
+    def get_queryset(self, request):
+        qs = super(MatchAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+
+        # is user admin of a rankinglist? than filter matches by rankinglist
+        rankinglists = Rankinglist.objects.filter(admin=request.user)
+        
+        return qs.filter(rankinglist__in=rankinglists)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "rankinglist":
+            if not request.user.is_superuser:
+                kwargs["queryset"] = Rankinglist.objects.filter(admin=request.user)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    
 
 class RankingAdmin(admin.ModelAdmin):
     fields = ('rankinglist', ('position','player'))
