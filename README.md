@@ -30,7 +30,6 @@ Python 3.8, Django 2.2.7, Mysql etc
 * Bugfix: Name auf Spielerhistorie wird nicht angezeigt
 
 ### v0.2.4
-* Grappelli admin frontend konfiguriert
 * Admin Listen und Formulare optimiert
 * Einführung von Ranglisten Admins und entsprechender Berechtigungen
 

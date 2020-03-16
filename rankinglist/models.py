@@ -56,16 +56,16 @@ class Match(models.Model):
     (ABGEBROCHEN,'abgebrochen'),
     )
 
-    rankinglist = models.ForeignKey(Rankinglist, on_delete=models.CASCADE)
-    playerone = models.ForeignKey(User, related_name='playerone', on_delete=models.CASCADE)
-    playertwo = models.ForeignKey(User, related_name='playertwo', on_delete=models.CASCADE)
-    playedat = models.DateTimeField()
-    set1playerone = models.IntegerField(default=0)
-    set1playertwo = models.IntegerField(default=0)
-    set2playerone = models.IntegerField(default=0)
-    set2playertwo = models.IntegerField(default=0)
-    set3playerone = models.IntegerField(default=0)
-    set3playertwo = models.IntegerField(default=0)
+    rankinglist = models.ForeignKey(Rankinglist, on_delete=models.CASCADE,verbose_name='Rangliste')
+    playerone = models.ForeignKey(User, related_name='playerone', on_delete=models.CASCADE,verbose_name='Spieler 1 (Sieger)')
+    playertwo = models.ForeignKey(User, related_name='playertwo', on_delete=models.CASCADE,verbose_name='Spieler 2')
+    playedat = models.DateTimeField(verbose_name='Spieldatum')
+    set1playerone = models.IntegerField(default=0,verbose_name='Satz1 - Spieler 1')
+    set1playertwo = models.IntegerField(default=0,verbose_name='Satz1 - Spieler 2')
+    set2playerone = models.IntegerField(default=0,verbose_name='Satz2 - Spieler 1')
+    set2playertwo = models.IntegerField(default=0,verbose_name='Satz2 - Spieler 2')
+    set3playerone = models.IntegerField(default=0,verbose_name='Satz3 - Spieler 1')
+    set3playertwo = models.IntegerField(default=0,verbose_name='Satz3 - Spieler 2')
     status = models.CharField(max_length=20, choices=MATCHSTATUS_CHOICES, default=GEPLANT)
     
     def __str__(self):
@@ -82,4 +82,6 @@ class Match(models.Model):
             return "%s : %s" % (self.set2playerone,self.set2playertwo)
         else:
             return ""
-        
+    class Meta:
+         verbose_name = "Spiel"
+         verbose_name_plural = "Spiele"

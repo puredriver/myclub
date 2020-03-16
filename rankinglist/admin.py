@@ -4,6 +4,8 @@ from .models import Rankinglist,Player,Ranking,Match
 
 logger = logging.getLogger(__name__)
 
+
+
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
 class MatchAdmin(admin.ModelAdmin):
     ordering = ['-playedat']  
@@ -59,3 +61,5 @@ admin.site.register(Rankinglist)
 # admin.site.register(Player)
 admin.site.register(Ranking,RankingAdmin)
 admin.site.register(Match,MatchAdmin)
+admin.site.site_header = 'Ranglisten Administration'
+admin.site.index_title = 'Navigation'
