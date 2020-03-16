@@ -13,10 +13,12 @@ class Rankinglist(models.Model):
     
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "Rangliste"
+        verbose_name_plural = "Ranglisten"
 
-class Player(models.Model):
-    firstname = models.CharField(max_length=255)
-    lastname = models.CharField(max_length=255)
+class Player(models.Model):    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     leistungsklasse = models.IntegerField(default=0)
 
@@ -45,6 +47,8 @@ class Ranking(models.Model):
 
     class Meta:
         ordering = ["position"]
+        verbose_name = "Position"
+        verbose_name_plural = "Positionen"
         
 class Match(models.Model):
     GEPLANT='geplant'
