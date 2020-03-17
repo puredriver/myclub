@@ -132,7 +132,8 @@ STATIC_URL = '/static/'
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = u'/home/tennisfreak/myclub/media'
 MEDIA_URL = '/media/'
-STATIC_ROOT = u'/home/tennisfreak/myclub/static'
+# STATIC_ROOT = u'/home/tennisfreak/myclub/static'
+STATIC_ROOT=os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 LOGGING = {
