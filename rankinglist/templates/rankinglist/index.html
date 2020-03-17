@@ -6,6 +6,18 @@
   Regelwerk
 </button>
 
+<div id="example">
+  <p>[[ hello ]]</p>
+</div>
+
+<script>
+  new Vue({
+      el: '#example',
+      delimiters: ['[[', ']]'],
+      data: { hello: 'Hello World!' }
+  })
+</script>
+
 <h5>Ranglisten</h5>
 
 {% for r in rankinglists %}
