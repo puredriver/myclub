@@ -33,6 +33,3 @@ class MatchSerializer(serializers.ModelSerializer):
         model = Match
         fields = ['id', 'status', 'playedat', 'rankinglist', 'playerone','playertwo','set1playerone','set1playertwo', 'set2playerone', 'set2playertwo', 'set3playerone','set3playertwo']
         depth = 1
-
-
-

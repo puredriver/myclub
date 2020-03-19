@@ -2,10 +2,9 @@ from django.urls import path, include
 
 from . import views
 from .routers import ReadOnlyRouter
-from .viewsets import MatchViewSet, RankinglistViewSet
+from .viewsets import RankinglistViewSet
 
 router = ReadOnlyRouter()
-router.register('match', MatchViewSet)
 router.register('rankinglist', RankinglistViewSet)
 
 

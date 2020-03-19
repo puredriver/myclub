@@ -1,6 +1,5 @@
 from rest_framework.routers import Route, SimpleRouter, DynamicRoute
 
-from .viewsets import MatchViewSet
 
 class ReadOnlyRouter(SimpleRouter):
     """
