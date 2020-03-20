@@ -24,9 +24,9 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = [u'localhost']
-#ALLOWED_HOSTS = [u'tennisfreak.eu.pythonanywhere.com']
+DEBUG = False
+# ALLOWED_HOSTS = [u'localhost']
+ALLOWED_HOSTS = [u'tennisfreak.eu.pythonanywhere.com']
 
 
 # Application definition
@@ -120,7 +120,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
