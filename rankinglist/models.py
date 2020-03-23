@@ -5,6 +5,14 @@ from django.dispatch import receiver
 
 # Create your models here.
 
+class Club(models.Model):
+    name = models.CharField(max_length=255)
+    path = models.CharField(max_length=255)
+    #TODO  logo + address + google map
+
+    def __str__(self):
+        return self.name
+    
 
 class Rankinglist(models.Model):
     name = models.CharField(max_length=255)
@@ -19,15 +27,17 @@ class Rankinglist(models.Model):
         verbose_name_plural = "Ranglisten"
 
 class Player(models.Model):    
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # if deleted set ranking and matches to a "deleted" user
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True)
     leistungsklasse = models.IntegerField(default=0)
 
-    @receiver(post_save, sender=User)
+    @receiver(post_save, sender=User,dispatch_uid="player_create")
     def create_user_player(sender, instance, created, **kwargs):
         if created:
             Player.objects.create(user=instance)
 
-    @receiver(post_save, sender=User)
+    @receiver(post_save, sender=User,dispatch_uid="player_save")
     def save_user_player(sender, instance, **kwargs):
         instance.player.save()
 
@@ -36,6 +46,10 @@ class Player(models.Model):
 
     def nameshort(self):
         return "%s %s." % (self.user.first_name, self.user.last_name[:1])
+    
+    class Meta:    
+        verbose_name = "Spieler"
+        verbose_name_plural = "Spieler"
 
 class Ranking(models.Model):
     position = models.IntegerField(default=0)

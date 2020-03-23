@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404
 from operator import itemgetter
 from django.contrib.auth.models import User
 
-from .models import Rankinglist, Match, Player
-from .forms import MatchesHistoryForm
+from .models import Rankinglist, Match, Player, Ranking, Club
+from .forms import MatchesHistoryForm, RankinglistSelForm
 
 import logging
 logger = logging.getLogger('rankinglist')
@@ -13,6 +13,15 @@ logger = logging.getLogger('rankinglist')
 # Create your views here.
 
 def index(request):
+    clubs = Club.objects.all()
+    context = {        
+        'clubs': clubs,
+    }
+    # logger.debug('in index')
+    return render(request, 'rankinglist/index.html', context)
+
+def clubmain(request,slug):
+    print(slug)
     rankinglists = Rankinglist.objects.filter(active=True)
     matches = Match.objects.all().exclude(status=Match.GEPLANT).order_by('-playedat')[:10] # first 10
     matches_planned=Match.objects.filter(status=Match.GEPLANT).order_by('playedat')
@@ -21,8 +30,7 @@ def index(request):
         'matches': matches,
         'matches_planned': matches_planned,
     }
-    # logger.debug('in index')
-    return render(request, 'rankinglist/index.html', context)
+    return render(request, 'rankinglist/clubmain.html', context)
 
 def playerhistory(request,player_id):
     player = get_object_or_404(User, pk=player_id)
@@ -33,7 +41,7 @@ def playerhistory(request,player_id):
         'matcheswon': matcheswon,
         'matcheslost': matcheslost,        
         'matcheswonCount': len(matcheswon),
-        'matcheslostCount': len(matcheslost),
+        'matcheslostCount': len(matcheslost),        
     }
     return render(request, 'rankinglist/playerhistory.html', context)
 
@@ -64,3 +72,5 @@ def matcheshistory(request):
         form = MatchesHistoryForm()
     m = Match.objects.all().exclude(status=Match.GEPLANT).order_by('-playedat') # TODO in 2021 - load by year
     return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': m})
+
+ 

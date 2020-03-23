@@ -1,10 +1,18 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
+from django.utils.translation import ugettext, ugettext_lazy as _
+from .models import Rankinglist,Player,Ranking,Match,Club
+
 import logging
-from .models import Rankinglist,Player,Ranking,Match
-
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("rankinglist")
 
 
+class ClubAdmin(admin.ModelAdmin):
+    
+    list_display = ('name','path')
+
+    list_display_links = ('name',)
 
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
 class MatchAdmin(admin.ModelAdmin):
@@ -50,16 +58,62 @@ class MatchAdmin(admin.ModelAdmin):
 
 class RankingAdmin(admin.ModelAdmin):
     fields = ('rankinglist', ('position','player'))
-
     list_display = ('rankinglist','position', 'player')
-
     list_display_links = ('position',)
 
+class PlayerInline(admin.StackedInline):
+    model = Player
+    can_delete = False
+    fields =('club','leistungsklasse')
+    #verbose_name_plural = 'Spieler'
 
-# Register your models here.
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "club":
+            if not request.user.is_superuser:
+                kwargs["queryset"] = Club.objects.filter(name=request.user.player.club)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+class UserAdmin(BaseUserAdmin):
+    inlines = (PlayerInline,)
+    list_display = ('get_club','username','first_name', 'last_name', 'email','is_active', 'is_staff')
+    list_display_links = ('username',)
+
+    def get_club(self,instance):
+        return instance.player.club
+    get_club.short_description = 'Club'
+
+    def get_queryset(self, request):
+        qs = super(UserAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+
+        # is user is_staff and has role "ClubAdmin" he can edit user from his club               
+        return qs.filter(player__club__exact=request.user.player.club)
+
+    def get_fieldsets(self, request, obj=None):
+        if not obj:
+            return self.add_fieldsets
+
+        if request.user.is_superuser:
+            perm_fields = ('is_active', 'is_staff', 'is_superuser',
+                           'groups', 'user_permissions')
+        else:
+            # modify these to suit the fields you want your
+            # staff user to be able to edit
+            perm_fields = ('is_active', 'is_staff','groups')
+
+        return [(None, {'fields': ('username', 'password')}),
+                (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+                (_('Permissions'), {'fields': perm_fields}),
+                (_('Important dates'), {'fields': ('last_login', 'date_joined')})]
+
+# Re-register UserAdmin to add player fields to admin scree
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 admin.site.register(Rankinglist)
 # admin.site.register(Player)
 admin.site.register(Ranking,RankingAdmin)
 admin.site.register(Match,MatchAdmin)
+admin.site.register(Club,ClubAdmin)
 admin.site.site_header = 'Ranglisten Administration'
 admin.site.index_title = 'Navigation'
