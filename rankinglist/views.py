@@ -20,7 +20,7 @@ def index(request):
     # logger.debug('in index')
     return render(request, 'rankinglist/index.html', context)
 
-def clubmain(request,slug):
+def clubmain(request,club_id):
     print(slug)
     rankinglists = Rankinglist.objects.filter(active=True)
     matches = Match.objects.all().exclude(status=Match.GEPLANT).order_by('-playedat')[:10] # first 10

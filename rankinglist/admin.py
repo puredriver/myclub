@@ -45,8 +45,7 @@ class MatchAdmin(admin.ModelAdmin):
             return qs
 
         # is user admin of a rankinglist? than filter matches by rankinglist
-        rankinglists = Rankinglist.objects.filter(admin=request.user)
-        
+        rankinglists = Rankinglist.objects.filter(admin=request.user)        
         return qs.filter(rankinglist__in=rankinglists)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):

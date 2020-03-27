@@ -33,7 +33,7 @@ class Player(models.Model):
     leistungsklasse = models.IntegerField(default=0)
 
     @receiver(post_save, sender=User,dispatch_uid="player_create")
-    def create_user_player(sender, instance, created, **kwargs):
+    def create_save_user_player(sender, instance, created, **kwargs):
         if created:
             Player.objects.create(user=instance)
 

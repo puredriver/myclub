@@ -4,11 +4,18 @@
 
 {% block content %}
 
-<div class="container-fluid">
+<div class="container">
 
   {% for c in clubs %}
+  <div class="card text-center">    
+    <div class="card-header">{{c.name}}</div>
+    <div class="card-body">
+      <p class="card-text">
+        <a href="{% url 'clubmain' club_id=c.id  %}" class="btn btn-primary btn-sm">Startseite</a>        
+      </p>
+    </div>
+  </div>
 
-  <a href="{% url clubmain  %}" class="btn btn-primary">{{c.name}}</a>
 
   {% endfor %}
 </div>
