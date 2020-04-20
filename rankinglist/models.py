@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -9,7 +10,7 @@ from django.dispatch import receiver
 class Rankinglist(models.Model):
     name = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
-    admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     
     def __str__(self):
         return self.name
@@ -64,13 +65,14 @@ class Match(models.Model):
     playerone = models.ForeignKey(User, related_name='playerone', on_delete=models.CASCADE,verbose_name='Spieler 1 (Sieger)')
     playertwo = models.ForeignKey(User, related_name='playertwo', on_delete=models.CASCADE,verbose_name='Spieler 2')
     playedat = models.DateTimeField(verbose_name='Spieldatum')
-    set1playerone = models.IntegerField(default=0,verbose_name='Satz1 - Spieler 1')
-    set1playertwo = models.IntegerField(default=0,verbose_name='Satz1 - Spieler 2')
-    set2playerone = models.IntegerField(default=0,verbose_name='Satz2 - Spieler 1')
-    set2playertwo = models.IntegerField(default=0,verbose_name='Satz2 - Spieler 2')
-    set3playerone = models.IntegerField(default=0,verbose_name='Satz3 - Spieler 1')
-    set3playertwo = models.IntegerField(default=0,verbose_name='Satz3 - Spieler 2')
+    set1playerone = models.IntegerField(default=0,verbose_name='Satz1 - Spieler 1',validators=[MaxValueValidator(7), MinValueValidator(0)])
+    set1playertwo = models.IntegerField(default=0,verbose_name='Satz1 - Spieler 2',validators=[MaxValueValidator(7), MinValueValidator(0)])
+    set2playerone = models.IntegerField(default=0,verbose_name='Satz2 - Spieler 1',validators=[MaxValueValidator(7), MinValueValidator(0)])
+    set2playertwo = models.IntegerField(default=0,verbose_name='Satz2 - Spieler 2',validators=[MaxValueValidator(7), MinValueValidator(0)])
+    set3playerone = models.IntegerField(default=0,verbose_name='Satz3 - Spieler 1',validators=[MaxValueValidator(10), MinValueValidator(0)])
+    set3playertwo = models.IntegerField(default=0,verbose_name='Satz3 - Spieler 2',validators=[MaxValueValidator(10), MinValueValidator(0)])
     status = models.CharField(max_length=20, choices=MATCHSTATUS_CHOICES, default=GEPLANT)
+
     
     def __str__(self):
         return "%s: %s vs %s - %s" % (self.rankinglist,self.playerone,self.playertwo,self.playedat)
