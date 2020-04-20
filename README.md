@@ -33,6 +33,9 @@ Python 3.8, Django 2.2.7, Mysql etc
 * Admin Listen und Formulare optimiert
 * Einführung von Ranglisten Admins und entsprechender Berechtigungen
 
+### v0.2.5
+* Spiel Validierungen bei fehlender Ranglisten Position
+
 ## Deployment Hinweise
 * Benutze ein ".env" Datei zum Setzen des SECRET_KEY und der DB Zugriffsdetails in "myclub/settings.py" z. B. wie hier beschrieben:
 https://help.pythonanywhere.com/pages/environment-variables-for-web-apps/
