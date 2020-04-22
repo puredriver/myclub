@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>clubranking - die Tennisrangliste für Clubs</title>
+        <title>mytennisclub</title>
 
     {% load static %}
     <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
@@ -40,7 +40,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
 
 
-      <a class="navbar-brand" href="{% url 'index' %}">clubranking</a>
+      <a class="navbar-brand" href="{% url 'index' %}">MTC - {{ request.session.club_name }}</a>
 <!--
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -70,7 +70,7 @@
     <footer class="footer  mt-auto py-3">
 	  <div class="container">
 
-      <a href="https://github.com/puredriver/myclub/blob/master/README.md#v023" target="_blank" class="badge badge-secondary">Version 0.2.4</a>
+      <a href="https://github.com/puredriver/myclub/blob/master/README.md#v030" target="_blank" class="badge badge-secondary">Version 0.3.0</a>
 	   </div>
 	  </footer>
 

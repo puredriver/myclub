@@ -11,7 +11,7 @@ logger = logging.getLogger('rankinglist')
 
 class Club(models.Model):
     name = models.CharField(max_length=255)
-    path = models.CharField(max_length=255)
+    # path = models.CharField(max_length=255)
     #TODO  logo + address + google map
 
     def __str__(self):
@@ -20,6 +20,7 @@ class Club(models.Model):
 class Rankinglist(models.Model):
     name = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE,null=True)
     admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     
     def __str__(self):
@@ -48,7 +49,7 @@ class Player(models.Model):
         return "%s %s" % (self.user.first_name, self.user.last_name)
 
     def nameshort(self):
-        return "%s %s." % (self.user.first_name, self.user.last_name[:1])
+        return "%s %s. (LK%s)" % (self.user.first_name, self.user.last_name[:1],self.leistungsklasse)
     
     class Meta:    
         verbose_name = "Spieler"

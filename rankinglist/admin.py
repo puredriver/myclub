@@ -11,7 +11,7 @@ logger = logging.getLogger("rankinglist")
 
 
 class ClubAdmin(admin.ModelAdmin):
-    list_display = ('name','path')
+    list_display = ('name',)
     list_display_links = ('name',)
 
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
@@ -111,8 +111,8 @@ class RankingInline(admin.TabularInline):
 # Register your models here.
 @admin.register(Rankinglist)
 class RankinglistAdmin(admin.ModelAdmin):
-    fields = (('name','active'), 'admin')
-    list_display = ('name','active', 'admin')
+    fields = (('name','active'), ('club','admin'))
+    list_display = ('club','name','active', 'admin')
     list_display_links = ('name',)
     inlines = [RankingInline,]
 

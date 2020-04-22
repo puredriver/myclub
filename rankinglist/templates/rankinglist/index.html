@@ -6,18 +6,16 @@
 
 <div class="container">
 
-  {% for c in clubs %}
-  <div class="card text-center">    
-    <div class="card-header">{{c.name}}</div>
-    <div class="card-body">
-      <p class="card-text">
-        <a href="{% url 'clubmain' club_id=c.id  %}" class="btn btn-primary btn-sm">Startseite</a>        
-      </p>
-    </div>
+  <div class="list-group pt-2">
+
+    {% for c in clubs %}
+          <a href="{% url 'clubmain' club_id=c.id  %}" class="list-group-item list-group-item-action">Startseite {{c.name}}</a>        
+       
+    {% endfor %}  
+ 
   </div>
 
-
-  {% endfor %}
+  <h1>DISCLAIMER</h1>
 </div>
 
 {% endblock %}

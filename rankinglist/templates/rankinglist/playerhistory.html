@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<a class="btn btn-primary btn-sm float-right" href="{% url 'index' %}" role="button">Zurück</a>
+<a class="btn btn-primary btn-sm float-right" href="{% url 'clubmain' club_id=club.id %}" role="button">Zurück</a>
 
 <h5>Spielhistorie von {{player.player.nameshort}}</h5>
 <p>Siege: {{matcheswonCount}} / Niederlagen: {{matcheslostCount}}</p>

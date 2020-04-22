@@ -21,19 +21,22 @@ def index(request):
     return render(request, 'rankinglist/index.html', context)
 
 def clubmain(request,club_id):
-    print(slug)
-    rankinglists = Rankinglist.objects.filter(active=True)
-    matches = Match.objects.all().exclude(status=Match.GEPLANT).order_by('-playedat')[:10] # first 10
-    matches_planned=Match.objects.filter(status=Match.GEPLANT).order_by('playedat')
+    club = get_object_or_404(Club,pk=club_id)
+    request.session['club_name'] = club.name
+    rankinglists = Rankinglist.objects.filter(club=club ,active=True)
+    matches = Match.objects.filter(rankinglist__in=rankinglists).exclude(status=Match.GEPLANT).order_by('-playedat') # [:10] first 10
+    matches_planned=Match.objects.filter(rankinglist__in=rankinglists,status=Match.GEPLANT).order_by('playedat')
     context = {        
         'rankinglists': rankinglists,
         'matches': matches,
         'matches_planned': matches_planned,
+        'club': club,
     }
     return render(request, 'rankinglist/clubmain.html', context)
 
-def playerhistory(request,player_id):
+def playerhistory(request,club_id,player_id):
     player = get_object_or_404(User, pk=player_id)
+    club = get_object_or_404(Club,pk=club_id)
     matcheswon = Match.objects.filter(playerone=player).exclude(status=Match.GEPLANT)
     matcheslost = Match.objects.filter(playertwo=player).exclude(status=Match.GEPLANT)
     context = {        
@@ -41,11 +44,13 @@ def playerhistory(request,player_id):
         'matcheswon': matcheswon,
         'matcheslost': matcheslost,        
         'matcheswonCount': len(matcheswon),
-        'matcheslostCount': len(matcheslost),        
+        'matcheslostCount': len(matcheslost),     
+        'club': club,   
     }
     return render(request, 'rankinglist/playerhistory.html', context)
 
-def rankingliststats(request,rankinglist_id):
+def rankingliststats(request,club_id,rankinglist_id):
+    club = get_object_or_404(Club,pk=club_id)
     rankinglist = get_object_or_404(Rankinglist, pk=rankinglist_id)
     playerList = []
     for ranking in rankinglist.rankings.all():
@@ -56,21 +61,22 @@ def rankingliststats(request,rankinglist_id):
     # todo count matches in rankinglist by player in playerList
     context = {        
         'rankinglist': rankinglist,
-        'players': sorted(playerList,key=itemgetter(1),reverse=True)
+        'players': sorted(playerList,key=itemgetter(1),reverse=True),
+        'club': club,
     }
     return render(request, 'rankinglist/rankingliststats.html', context)
 
-def matcheshistory(request):
-    if( request.method == 'POST'):
-        form = MatchesHistoryForm(request.POST)
-        if (form.is_valid()):
-            year = form.cleaned_data['year']
-            logger.debug("Year %s in matches history" %(year))
+#def matcheshistory(request):
+#    if( request.method == 'POST'):
+#        form = MatchesHistoryForm(request.POST)
+#        if (form.is_valid()):
+#            year = form.cleaned_data['year']
+#            logger.debug("Year %s in matches history" %(year))
             # TODO in 2021 - load by year
-            return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': []})
-    else:
-        form = MatchesHistoryForm()
-    m = Match.objects.all().exclude(status=Match.GEPLANT).order_by('-playedat') # TODO in 2021 - load by year
-    return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': m})
+#            return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': []})
+#    else:
+#        form = MatchesHistoryForm()
+#    m = Match.objects.all().exclude(status=Match.GEPLANT).order_by('-playedat') # TODO in 2021 - load by year
+#    return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': m})
 
  
