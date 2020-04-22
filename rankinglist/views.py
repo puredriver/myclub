@@ -5,7 +5,7 @@ from operator import itemgetter
 from django.contrib.auth.models import User
 
 from .models import Rankinglist, Match, Player, Ranking, Club
-from .forms import MatchesHistoryForm, RankinglistSelForm
+from .forms import MatchesHistoryForm
 
 import logging
 logger = logging.getLogger('rankinglist')

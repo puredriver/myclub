@@ -3,41 +3,39 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext, ugettext_lazy as _
 from .models import Rankinglist,Player,Ranking,Match,Club
+from django.contrib import messages
+from .forms import MatchAdminForm
 
 import logging
 logger = logging.getLogger("rankinglist")
 
 
 class ClubAdmin(admin.ModelAdmin):
-    
     list_display = ('name','path')
-
     list_display_links = ('name',)
 
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
 class MatchAdmin(admin.ModelAdmin):
     ordering = ['-playedat']  
-
     fields = ('rankinglist', 'playerone','playertwo','playedat','status',('set1playerone','set1playertwo'),('set2playerone','set2playertwo'),('set3playerone','set3playertwo'))
-
     list_display = ('rankinglist','status', 'playerone','playertwo','playedat','set1','set2','set3')
-
     list_display_links = ('status',)
 
+    form = MatchAdminForm
+
     def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
-        # change ranking position automaticaly
+        # switch the ranking if needed
         ranking_playerone = Ranking.objects.filter(rankinglist=obj.rankinglist,player=obj.playerone).first()
         ranking_playertwo = Ranking.objects.filter(rankinglist=obj.rankinglist,player=obj.playertwo).first()
-        # TODO check rankings first if available
-        # TODO validation - check match result if status GESPIELT
-        # TODO show only players in dropdown who have a ranking - for rankingadmin
-        if ( ranking_playerone.position > ranking_playertwo.position and (obj.status == Match.GESPIELT or obj.status == Match.ABGEBROCHEN)):
-            posplayerone_old = ranking_playerone.position
-            ranking_playerone.position = ranking_playertwo.position
-            ranking_playertwo.position = posplayerone_old
+       
+        if ( ranking_playerone.position > ranking_playertwo.position and (obj.status == Match.GESPIELT or obj.status == Match.ABGEBROCHEN)):            
+            ranking_playerone.position, ranking_playertwo.position = ranking_playertwo.position, ranking_playerone.position
             ranking_playerone.save()
             ranking_playertwo.save()
+        
+        super().save_model(request, obj, form, change)
+        # change ranking position automaticaly
+        
 
     def get_queryset(self, request):
         qs = super(MatchAdmin, self).get_queryset(request)
@@ -106,12 +104,21 @@ class UserAdmin(BaseUserAdmin):
                 (_('Permissions'), {'fields': perm_fields}),
                 (_('Important dates'), {'fields': ('last_login', 'date_joined')})]
 
+class RankingInline(admin.TabularInline):
+    model=Ranking
+    extra = 0
+
+# Register your models here.
+@admin.register(Rankinglist)
+class RankinglistAdmin(admin.ModelAdmin):
+    fields = (('name','active'), 'admin')
+    list_display = ('name','active', 'admin')
+    list_display_links = ('name',)
+    inlines = [RankingInline,]
+
 # Re-register UserAdmin to add player fields to admin scree
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(Rankinglist)
-# admin.site.register(Player)
-admin.site.register(Ranking,RankingAdmin)
 admin.site.register(Match,MatchAdmin)
 admin.site.register(Club,ClubAdmin)
 admin.site.site_header = 'Ranglisten Administration'

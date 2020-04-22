@@ -33,6 +33,9 @@ Python 3.8, Django 2.2.7, Mysql etc
 * Admin Listen und Formulare optimiert
 * Einführung von Ranglisten Admins und entsprechender Berechtigungen
 
+### v0.2.5
+* Spiel Validierungen bei fehlender Ranglisten Position der Spieler
+
 ### v0.3.0
 * Einführung des Modell für Clubs
 * Neue Rollen im Admin "ClubAdmin" und "RankingAdmin" und Berechtigungen
