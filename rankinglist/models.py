@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
-
+import logging
+logger = logging.getLogger('rankinglist')
 
 class Rankinglist(models.Model):
     name = models.CharField(max_length=255)
@@ -50,6 +51,10 @@ class Ranking(models.Model):
         ordering = ["position"]
         verbose_name = "Position"
         verbose_name_plural = "Positionen"
+        constraints = [
+            models.UniqueConstraint(fields=['position', 'rankinglist','player'], name='uniqueranking')
+        ]
+
         
 class Match(models.Model):
     GEPLANT='geplant'
@@ -91,3 +96,15 @@ class Match(models.Model):
     class Meta:
          verbose_name = "Spiel"
          verbose_name_plural = "Spiele"
+
+
+@receiver(post_delete,sender=Ranking, dispatch_uid='ranking_delete')
+def ranking_delete(sender, **kwargs):
+    ranking = kwargs['instance']
+    logger.debug("in ranking delete signal")
+    rankings_after = Ranking.objects.filter(rankinglist=ranking.rankinglist,position__gt=ranking.position)
+    ranking_pos = ranking.position
+    for r in rankings_after:
+        r.position = ranking_pos
+        r.save()
+        ranking_pos += 1

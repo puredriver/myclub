@@ -54,10 +54,12 @@ class MatchAdmin(admin.ModelAdmin):
 
 class RankingInline(admin.TabularInline):
     model=Ranking
+    extra = 0
 
 # Register your models here.
 @admin.register(Rankinglist)
 class RankinglistAdmin(admin.ModelAdmin):
+    fields = (('name','active'), 'admin')
     list_display = ('name','active', 'admin')
     list_display_links = ('name',)
     inlines = [RankingInline,]

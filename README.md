@@ -34,7 +34,7 @@ Python 3.8, Django 2.2.7, Mysql etc
 * Einführung von Ranglisten Admins und entsprechender Berechtigungen
 
 ### v0.2.5
-* Spiel Validierungen bei fehlender Ranglisten Position
+* Spiel Validierungen bei fehlender Ranglisten Position der Spieler
 
 ## Deployment Hinweise
 * Benutze ein ".env" Datei zum Setzen des SECRET_KEY und der DB Zugriffsdetails in "myclub/settings.py" z. B. wie hier beschrieben:
