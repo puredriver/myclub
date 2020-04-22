@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from operator import itemgetter
 from django.contrib.auth.models import User
 
 from .models import Rankinglist, Match, Player, Ranking, Club
-from .forms import MatchesHistoryForm
+from .forms import MatchesHistoryForm, SignUpForm
 
 import logging
 logger = logging.getLogger('rankinglist')
@@ -79,4 +79,19 @@ def rankingliststats(request,club_id,rankinglist_id):
 #    m = Match.objects.all().exclude(status=Match.GEPLANT).order_by('-playedat') # TODO in 2021 - load by year
 #    return render(request, 'rankinglist/matcheshistory.html', {'form': form, 'matches': m})
 
- 
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            user.player.leistungsklasse = form.cleaned_data.get('leistungsklasse')
+            user.player.club = form.cleaned_data.get('club')
+            user.save()
+            #raw_password = form.cleaned_data.get('password1')
+            #user = authenticate(username=user.username, password=raw_password)
+            #login(request, user)
+            return redirect('index')
+    else:
+        form = SignUpForm()
+    return render(request, 'rankinglist/signup.html', {'form': form})
