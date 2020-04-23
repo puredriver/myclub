@@ -1,0 +1,11 @@
+{% extends "rankinglist/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <h5>Erfolgreich ausgeloggt!</h5>
+    
+  <a href="{% url 'login' %}">Wieder einloggen?</a>
+
+{% endblock %}

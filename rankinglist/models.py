@@ -35,6 +35,7 @@ class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     club = models.ForeignKey(Club, on_delete=models.CASCADE, null=True)
     leistungsklasse = models.IntegerField(default=0)
+    email_confirmed = models.BooleanField(default=False)
 
     @receiver(post_save, sender=User,dispatch_uid="player_create")
     def create_save_user_player(sender, instance, created, **kwargs):

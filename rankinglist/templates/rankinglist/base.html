@@ -40,39 +40,61 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
 
 
-      <a class="navbar-brand" href="{% url 'index' %}">MTC - {{ request.session.club_name }}</a>
-<!--
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="{% url 'index' %}">MTC {{ request.session.club_name }}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+  
+      <div class="collapse navbar-collapse w-100 order-3 dual-collapse2" id="navbarsExample09">
 
-      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-
-
-          <li class="nav-item dropdown">
-
-          </li>
-
-        </ul>
-
-      </div>  -->
+        <ul class="navbar-nav ml-auto">
+          {% if user.is_authenticated %}
+            <a class="nav-link" href="{% url 'logout' %}">Ausloggen</a>
+            <a class="nav-link" href="{% url 'index' %}">Profil</a>                
+          {% else %}
+            <a class="nav-link" href="{% url 'signup' %}">Registrieren</a>
+            <a class="nav-link" href="{% url 'login' %}">Einloggen</a>
+          {% endif %}   
+      </ul>  
+            
+      </div> 
     </nav>
 </header>
 
     <main role="main" class="flex-shrink-0">
-     <div class="container">
+
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} m-2" id="msg" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          {% endfor %}
+      {% endif %}
+    
         {% block content %}{% endblock %}
      </div>
+
+     <script>
+      setTimeout(function(){
+        if ($('#msg').length > 0) {
+          $('#msg').remove();
+        }
+      }, 10000)
+    </script> 
     </main><!-- /.container -->
 
+    <footer class="footer  mt-auto py-3 bg-dark text-white-50">      
+      <div class="container text-center">
+        <a href="http://www.mytennisclub.online" target="_blank">&copy 2020 Copyright: mytennisclub.online</a>
+        Privacy Policy | Terms of use | <a href="https://github.com/puredriver/myclub/blob/master/README.md#v030" target="_blank" class="badge badge-secondary">Version 0.3.0</a> 
+      </div>
+    </footer>
 
-    <footer class="footer  mt-auto py-3">
-	  <div class="container">
-
-      <a href="https://github.com/puredriver/myclub/blob/master/README.md#v030" target="_blank" class="badge badge-secondary">Version 0.3.0</a>
-	   </div>
-	  </footer>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?always=1"></script>
 
     </body>
 </html>

@@ -3,6 +3,7 @@
 
 {% block content %}
   <h5>Registrieren</h5>
+  <h6>Hiermit tritts du deinem Club bei um an der Rangliste teilzunehmen. Die Mailadresse muss bestätigt werden.</h6>  
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}

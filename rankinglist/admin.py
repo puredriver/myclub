@@ -72,12 +72,15 @@ class PlayerInline(admin.StackedInline):
 
 class UserAdmin(BaseUserAdmin):
     inlines = (PlayerInline,)
-    list_display = ('get_club','username','first_name', 'last_name', 'email','is_active', 'is_staff')
+    list_display = ('get_club','username','first_name', 'last_name', 'email','is_active', 'is_staff','get_email_confirmed')
     list_display_links = ('username',)
 
     def get_club(self,instance):
         return instance.player.club
     get_club.short_description = 'Club'
+
+    def get_email_confirmed(self,instance):
+        return instance.player.email_confirmed
 
     def get_queryset(self, request):
         qs = super(UserAdmin, self).get_queryset(request)
@@ -112,7 +115,7 @@ class RankingInline(admin.TabularInline):
 @admin.register(Rankinglist)
 class RankinglistAdmin(admin.ModelAdmin):
     fields = (('name','active'), ('club','admin'))
-    list_display = ('club','name','active', 'admin')
+    list_display = ('club','name','active', 'admin',)
     list_display_links = ('name',)
     inlines = [RankingInline,]
 

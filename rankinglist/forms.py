@@ -5,6 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Div
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from captcha.fields import ReCaptchaField
 
 class MatchesHistoryForm(forms.Form):
     year = forms.ChoiceField(choices = YEAR_CHOICES,label='Jahr')
@@ -49,6 +50,7 @@ class MatchAdminForm(forms.ModelForm):
 class SignUpForm(UserCreationForm):
     club = forms.ModelChoiceField(queryset=Club.objects.all(), empty_label=None)
     leistungsklasse = forms.IntegerField( max_value=23, min_value=1,required=False)
+    captcha = ReCaptchaField()
 
     class Meta:
         model = User

@@ -1,0 +1,7 @@
+{% autoescape off %}
+Hi {{ user.username }},
+
+Bitte bestätige deine Mailadresse mit Klick auf den Link
+
+https://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+{% endautoescape %}
