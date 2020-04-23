@@ -81,6 +81,8 @@ class UserAdmin(BaseUserAdmin):
 
     def get_email_confirmed(self,instance):
         return instance.player.email_confirmed
+    get_email_confirmed.short_description = 'Email bestätigt?'
+    get_email_confirmed.boolean = True
 
     def get_queryset(self, request):
         qs = super(UserAdmin, self).get_queryset(request)
