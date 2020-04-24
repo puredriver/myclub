@@ -49,7 +49,13 @@ class MatchAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "rankinglist":
             if not request.user.is_superuser:
-                kwargs["queryset"] = Rankinglist.objects.filter(admin=request.user)
+                if request.user.groups.filter(name='ClubAdmin').exists():
+                    kwargs["queryset"] = Rankinglist.objects.filter(club=request.user.player.club)
+                if request.user.groups.filter(name='RanglistenAdmin').exists():            
+                    kwargs["queryset"] = Rankinglist.objects.filter(admin=request.user)
+        if db_field.name == "playerone" or db_field.name == "playertwo":
+            kwargs["queryset"] = User.objects.filter(player__club__exact=request.user.player.club)
+
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
     
 
@@ -113,6 +119,13 @@ class RankingInline(admin.TabularInline):
     model=Ranking
     extra = 0
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):        
+        if db_field.name == "player":
+            if not request.user.is_superuser:
+                kwargs["queryset"] = User.objects.filter(player__club__exact=request.user.player.club)
+
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 # Register your models here.
 @admin.register(Rankinglist)
 class RankinglistAdmin(admin.ModelAdmin):
@@ -120,6 +133,26 @@ class RankinglistAdmin(admin.ModelAdmin):
     list_display = ('club','name','active', 'admin',)
     list_display_links = ('name',)
     inlines = [RankingInline,]
+
+    def get_queryset(self, request):
+        qs = super(RankinglistAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        if request.user.groups.filter(name='RanglistenAdmin').exists():            
+            return qs.filter(admin=request.user)
+
+        # is user is_staff and has role "ClubAdmin" he can edit user from his club               
+        return qs.filter(club__exact=request.user.player.club)
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "club":
+            if not request.user.is_superuser:
+                kwargs["queryset"] = Club.objects.filter(name=request.user.player.club)
+        if db_field.name == "admin":
+            if not request.user.is_superuser:
+                kwargs["queryset"] = User.objects.filter(player__club__exact=request.user.player.club)
+
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 # Re-register UserAdmin to add player fields to admin scree
 admin.site.unregister(User)
