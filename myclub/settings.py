@@ -25,9 +25,9 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = [u'localhost','localhost:8080']
-#ALLOWED_HOSTS = [u'tennisfreak.eu.pythonanywhere.com']
+DEBUG = False
+# ALLOWED_HOSTS = [u'localhost','localhost:8080']
+ALLOWED_HOSTS = [u'mytennisclub.online']
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
@@ -89,12 +89,13 @@ DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'ENGINE': 'django.db.backends.mysql',
+        # 'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv("DB_NAME"),
         'USER': os.getenv("DB_USER"),
         'PASSWORD': os.getenv("DB_PASSWORD"),
         'HOST': os.getenv("DB_HOST"),   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'PORT': '5432',
     }
 }
 
@@ -181,7 +182,7 @@ MESSAGE_TAGS = {
 }
 
 # for developlment console
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST=os.getenv("EMAIL_HOST")
 EMAIL_PORT=os.getenv("EMAIL_PORT")
 EMAIL_HOST_USER=os.getenv("EMAIL_HOST_USER")

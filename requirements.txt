@@ -3,3 +3,4 @@ django-crispy-forms
 djangorestframework
 django-cors-headers
 django-recaptcha==2.0.6
+psycopg2
