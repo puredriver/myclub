@@ -27,7 +27,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 # ALLOWED_HOSTS = [u'localhost','localhost:8080']
-ALLOWED_HOSTS = [u'mytennisclub.online']
+# ALLOWED_HOSTS = [u'mytennisclub.online']
+ALLOWED_HOSTS = [u'mytennisclub.eu.pythonanywhere.com']
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
@@ -89,13 +90,13 @@ DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # 'ENGINE': 'django.db.backends.mysql',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv("DB_NAME"),
         'USER': os.getenv("DB_USER"),
         'PASSWORD': os.getenv("DB_PASSWORD"),
         'HOST': os.getenv("DB_HOST"),   # Or an IP Address that your DB is hosted on
-        'PORT': '5432',
+        'PORT': '3306',
     }
 }
 
@@ -140,7 +141,7 @@ STATIC_URL = '/static/'
 
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
-MEDIA_ROOT = u'/home/tennisfreak/myclub/media'
+MEDIA_ROOT = u'/home/mytennisclub/myclub/media'
 MEDIA_URL = '/media/'
 # STATIC_ROOT = u'/home/tennisfreak/myclub/static'
 STATIC_ROOT=os.path.join(BASE_DIR, 'static')
