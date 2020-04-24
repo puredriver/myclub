@@ -1,0 +1,36 @@
+{% extends "rankinglist/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <h5>Benutzer '{{ user.username }}' bearbeiten</h5>
+  <div class="alert alert-primary" role="alert">
+    Bei einem Clubwechsel erstelle bitte einen neuen Account
+  </div>
+  <form method="post">
+    {% if form.subject.errors %}
+    <ol>
+    {% for error in form.subject.errors %}
+        <li><strong>{{ error|escape }}</strong></li>
+    {% endfor %}
+    </ol>
+    {% endif %}
+
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn btn-primary">Aktualisieren</button>
+      </div>
+    </div>
+  </form>
+
+  <h5>Passwort ändern</h5>
+
+  <a href="{% url 'password_change' %}" class="btn btn-secondary">Passwort ändern</a>
+  
+  <h5>Profil löschen</h5>
+
+  <a href="" class="btn btn-danger">Löschen</a> 
+
+
+{% endblock %}

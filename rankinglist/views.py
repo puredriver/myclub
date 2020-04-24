@@ -10,6 +10,9 @@ from django.utils.encoding import force_text
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse
 
 from .models import Rankinglist, Match, Player, Ranking, Club
 from .forms import MatchesHistoryForm, SignUpForm
@@ -32,6 +35,7 @@ def index(request):
 def clubmain(request,club_id):
     club = get_object_or_404(Club,pk=club_id)
     request.session['club_name'] = club.name
+    request.session['club_id'] = club.id
     rankinglists = Rankinglist.objects.filter(club=club ,active=True)
     matches = Match.objects.filter(rankinglist__in=rankinglists).exclude(status=Match.GEPLANT).order_by('-playedat') # [:10] first 10
     matches_planned=Match.objects.filter(rankinglist__in=rankinglists,status=Match.GEPLANT).order_by('playedat')
@@ -138,3 +142,24 @@ def activate(request, uidb64, token):
 
 def account_activation_sent(request):
     return render(request, 'rankinglist/account_activation_sent.html')
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    #form_class = UserChangeForm
+    model = User    
+    template_name = 'rankinglist/user_update.html'
+    fields = ["first_name","last_name","email"]
+    
+
+    def get_success_url(self):
+        # return reverse("users_detail", kwargs={"username": self.request.user.username})
+        return reverse("index")
+
+    #def get_object(self):
+    #    return User.objects.get(pk=self.request.user.pk)
+        #return User.objects.get(username=self.request.user.username)
+
+    def form_valid(self, form):
+        messages.add_message(
+            self.request, messages.INFO, "Profil wurde erfolgreich aktualisiert"
+        )
+        return super().form_valid(form)
